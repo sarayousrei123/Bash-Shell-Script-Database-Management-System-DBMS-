@@ -25,4 +25,5 @@ case $REPLY in
 	;;
 esac
 done 
+function welcomeScreen {}
 
