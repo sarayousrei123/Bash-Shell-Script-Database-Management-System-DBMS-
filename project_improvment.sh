@@ -5,7 +5,7 @@ echo ""
 echo "                    Bash Shell Script Database Management System (DBMS)               "
 echo "                        Telecom Application Development - Intake 45                  "
 echo "                             Sara Yousrei Alsoyefeai Allsebeai                        "
-echo ""
+echo "                             shrouq haney mohamed                                    "
 echo "***********************************************************************************************************"
 echo ""
 
@@ -25,3 +25,4 @@ case $REPLY in
 	;;
 esac
 done 
+
