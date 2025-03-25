@@ -12,6 +12,7 @@ function selectDB {
         read -p "Enter database name or type 'exit' to return: " dbname
 
         if [[ $dbname == "exit" ]]; then
+
             dbMainMenu
             return
         fi
@@ -23,7 +24,7 @@ function selectDB {
 
         if [[ -d "$DB_MAIN_DIR/$dbname" ]]; then
             echo -e "${GREEN}✅ Successfully connected to '$dbname'!${NC}"
-            cd "$DB_MAIN_DIR/$dbname"
+
             TablesMainMenu
             return
         else

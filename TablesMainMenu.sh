@@ -3,7 +3,7 @@
 function TablesMainMenu {
     clear
     echo "=========================================="
-    echo "📋      WELCOME TO TABLES MENU      📋"
+    echo "📋      WELCOME TO Database [$dbname]      📋"
     echo "=========================================="
 
     while true; do

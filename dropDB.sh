@@ -1,7 +1,7 @@
 function dropDB {
     clear
     echo "============================"
-    echo "       🗑️  DELETE A DATABASE"
+    echo "  🗑️  DELETE A DATABASE"
     echo "============================"
 
     while true; do

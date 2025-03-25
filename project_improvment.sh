@@ -12,6 +12,7 @@ source "$SCRIPT_DIR/functions/selectDB.sh"
 source "$SCRIPT_DIR/functions/TablesMainMenu.sh"
 source "$SCRIPT_DIR/functions/validateDBName.sh" 
 source "$SCRIPT_DIR/functions/colors.sh" 
+source "$SCRIPT_DIR/functions/createTable.sh" 
 
 if ! [[ -d "$DB_MAIN_DIR" ]]; then
     mkdir -p "$DB_MAIN_DIR"  #DB_MAIN_DIR 
@@ -19,10 +20,10 @@ fi
 clear
 echo "***********************************************************************************************************"
 echo -e "${YELLOW}                                                                                                          ${NC}"
-echo -e "${YELLOW}                    🚀 Bash Shell Script Database Management System (DBMS)                               ${NC}"
+echo -e "${YELLOW}                    🚀 Bash Shell Script Database Management System (DBMS) 🚀                             ${NC}"
 echo -e "${YELLOW}                        Telecom Application Development - Intake 45                                      ${NC}"
-echo -e "${BLUE}                             ⭐ Sara Yousrei Alsoyefeai Allsebeai                                         ${NC}"
-echo -e "${GREEN}                             ⭐ Shrouq Haney Mohamed                                                      ${NC}"
+echo -e "${Cyan}                             ⭐ Sara Yousrei Alsoyefeai Allsebeai ⭐                                    ${NC}"
+echo -e "${Purple}                                  ⭐ Shrouq Haney Mohamed ⭐                                           ${NC}"
 echo -e "${YELLOW}                                                                                                          ${NC}"
 echo "***********************************************************************************************************"
 echo ""

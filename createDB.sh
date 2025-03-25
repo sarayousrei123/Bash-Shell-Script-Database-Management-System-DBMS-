@@ -23,7 +23,7 @@ function createDB {
             echo -e "${RED}❌ Error: Database '$dbname' already exists.${NC}"
             continue
         fi
-
+	
         mkdir "$DB_MAIN_DIR/$dbname"
         echo -e "${GREEN}✅ Database '$dbname' has been created successfully! 🎉${NC}"
         continue
