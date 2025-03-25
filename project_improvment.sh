@@ -31,9 +31,9 @@ echo ""
 
 function welcomeScreen {
     PS3="Enter Your Option: "
-    select choice in "Enter to your database" "Exit"; do
+    select choice in "Enter to your database" "Exit"; 
+    do
         case $REPLY in
-
             1) dbMainMenu ;;  
             2) echo "Exiting, Goodbye :( "; exit 0 ;;  
             *) echo -e "${RED}❌ Invalid option!${NC}";;  
