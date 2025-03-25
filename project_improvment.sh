@@ -30,6 +30,7 @@ echo ""
 
 
 function welcomeScreen {
+
     PS3="Enter Your Option: "
     select choice in "Enter to your database" "Exit"; 
     do
