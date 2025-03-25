@@ -1,37 +1,39 @@
 #!/bin/bash
 function renameDB {
-  	clear
-        echo "*************************************"
-	echo "can renameDB here :)"
-	echo "*************************************"
-    echo -n "Enter the current database name: "
-    read old_name
+    clear
+    echo "==============================="
+    echo "         🔄 RENAME DATABASE"
+    echo "==============================="
 
-    old_path="$DB_MAIN_DIR/$old_name"
+    while true; do
+        read -p "Enter the  database name or 'exit' to return: " old_name
 
-    if [[ ! -d "$old_path" ]]; then
-        echo -e "\e[31mDatabase '$old_name' does not exist!\e[0m"
-        return
-    fi
-
-    echo -n "Enter the new database name: "
-    read new_name
-
-    new_path="$DB_MAIN_DIR/$new_name"
-
-    if [[ -d "$new_path" ]]; then
-        echo -e "\e[31mDatabase '$new_name' already exists!\e[0m"
-        return
-    fi
-     if [[ -z $new_name || $new_path == *" "* ]]; then
-            echo "❌ Error: Database name cannot be empty or contain spaces."
-            return
-        fi
-        if [[ $new_name == *['!''?'@\#\$%^\&*()'-'+\.\/';']* ]]; then
-            echo "❌ Error: Database name cannot contain special characters."
+        if [[ $old_name == "exit" ]]; then
+            dbMainMenu
             return
         fi
 
-    mv "$old_path" "$new_path"
-    echo -e "\e[32mDatabase renamed successfully from '$old_name' to '$new_name'!\e[0m"
-} 
+        if [[ ! -d "$DB_MAIN_DIR/$old_name" ]]; then
+            echo -e "${RED}❌ Error: Database '$old_name' does not exist! ${NC}"
+            continue
+        fi
+
+        read -p "Enter the new database name: " new_name
+
+        validateDBName "$new_name"
+        if [[ $? -ne 0 ]]; then
+            continue
+        fi
+        
+
+        if [[ -d "$DB_MAIN_DIR/$new_name" ]]; then
+            echo -e "${RED}❌ Error: Database '$new_name' already exists! ${NC}"
+            continue
+        fi
+        mv "$DB_MAIN_DIR/$old_name" "$DB_MAIN_DIR/$new_name"
+        echo -e "${GREEN}✅ Database renamed successfully from '$old_name' to '$new_name'! ${NC}"
+        continue
+        
+    done
+}
+

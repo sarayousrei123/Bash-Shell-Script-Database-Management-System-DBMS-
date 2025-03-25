@@ -1,13 +1,24 @@
 #!/bin/bash
 function dbMainMenu {
+    clear
+    echo "=============================================="
+    echo "🚀    WELCOME TO THE DATABASE MAIN MENU    🚀"
+    echo "=============================================="
+    echo ""
+    echo "📌 Please choose an option from the menu below:"
+    echo "----------------------------------------------"
 
-        clear
-        echo "*************************************"
-	echo "Welcome to Our DataBase Main Menu :)"
-	echo "*************************************"
     while true; do
-        PS3="Enter your choice: "  
-        options=("Select DB" "Create DB" "Rename DB" "Drop DB" "Show DBs" "Execute SQL Query" "Exit")
+        PS3="🔹 Enter your choice: "  
+        options=(
+            "📂 Select Database" 
+            "➕ Create Database" 
+            "✏️  Rename Database" 
+            "🗑️  Drop Database" 
+            "📋 Show Databases" 
+            "💻 Execute SQL Query" 
+            "❌ Exit"
+        )
 
         select choice in "${options[@]}"; do
             case $REPLY in
@@ -17,8 +28,8 @@ function dbMainMenu {
                 4) dropDB; break ;;  
                 5) showDBs; break ;;  
                 6) executeSQL; break ;;  
-                7) echo "Exiting, Goodbye :( "; exit 0 ;;  
-                *) echo "❌ Invalid option!"
+                7) echo -e "👋 Exiting, Goodbye!"; exit 0 ;;  
+                *) echo -e "${RED}❌ Invalid option! Please select a valid number from 1 to 7.${NC}" ;;
             esac
         done
     done
