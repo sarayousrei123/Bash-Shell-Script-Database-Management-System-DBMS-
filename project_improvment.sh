@@ -1,23 +1,18 @@
 #!/bin/bash
 
-SCRIPT_DIR="$(dirname "$0")"  
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DB_MAIN_DIR="$SCRIPT_DIR/Databases" 
-source "$SCRIPT_DIR/functions/createDB.sh" 
-source "$SCRIPT_DIR/functions/dbMainMenu.sh" 
-source "$SCRIPT_DIR/functions/showDBs.sh" 
-source "$SCRIPT_DIR/functions/showspeceficDB.sh" 
-source "$SCRIPT_DIR/functions/dropDB.sh" 
-source "$SCRIPT_DIR/functions/renameDB.sh" 
-source "$SCRIPT_DIR/functions/selectDB.sh" 
-source "$SCRIPT_DIR/functions/TablesMainMenu.sh"
-source "$SCRIPT_DIR/functions/validateDBName.sh" 
-source "$SCRIPT_DIR/functions/colors.sh" 
-source "$SCRIPT_DIR/functions/createTable.sh" 
+
+for file in "$SCRIPT_DIR/functions/"*.sh; 
+do
+    source "$file"
+done
 
 if ! [[ -d "$DB_MAIN_DIR" ]]; then
     mkdir -p "$DB_MAIN_DIR"  #DB_MAIN_DIR 
 fi
 clear
+
 echo "***********************************************************************************************************"
 echo -e "${YELLOW}                                                                                                          ${NC}"
 echo -e "${YELLOW}                    🚀 Bash Shell Script Database Management System (DBMS) 🚀                             ${NC}"
