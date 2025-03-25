@@ -8,12 +8,14 @@ function renameDB {
     while true; do
         read -p "Enter the  database name or 'exit' to return: " old_name
 
-        if [[ $old_name == "exit" ]]; then
+        if [[ $old_name == "exit" ]]; 
+        then
             dbMainMenu
             return
         fi
 
-        if [[ ! -d "$DB_MAIN_DIR/$old_name" ]]; then
+        if [[ ! -d "$DB_MAIN_DIR/$old_name" ]]; 
+        then
             echo -e "${RED}❌ Error: Database '$old_name' does not exist! ${NC}"
             continue
         fi
@@ -21,16 +23,19 @@ function renameDB {
         read -p "Enter the new database name: " new_name
 
         validateDBName "$new_name"
-        if [[ $? -ne 0 ]]; then
+        if [[ $? -ne 0 ]]; 
+        then
             continue
         fi
         
 
-        if [[ -d "$DB_MAIN_DIR/$new_name" ]]; then
+        if [[ -d "$DB_MAIN_DIR/$new_name" ]]; 
+        then
             echo -e "${RED}❌ Error: Database '$new_name' already exists! ${NC}"
             continue
         fi
         mv "$DB_MAIN_DIR/$old_name" "$DB_MAIN_DIR/$new_name"
+        
         echo -e "${GREEN}✅ Database renamed successfully from '$old_name' to '$new_name'! ${NC}"
         continue
         
