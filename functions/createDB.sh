@@ -6,7 +6,8 @@ function createDB {
     echo "     📂 CREATE A NEW DATABASE  "
     echo "==============================="
 
-    while true; do
+    while true; 
+    do
         read -p "Enter the database name or type 'exit' to return: " dbname
 
         if [[ $dbname == "exit" ]]; then
