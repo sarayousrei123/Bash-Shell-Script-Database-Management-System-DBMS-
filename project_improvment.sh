@@ -16,9 +16,10 @@ clear
 echo "***********************************************************************************************************"
 echo -e "${YELLOW}                                                                                                          ${NC}"
 echo -e "${YELLOW}                    🚀 Bash Shell Script Database Management System (DBMS) 🚀                             ${NC}"
-echo -e "${YELLOW}                        Telecom Application Development - Intake 45                                      ${NC}"
-echo -e "${Cyan}                             ⭐ Sara Yousrei Alsoyefeai Allsebeai ⭐                                    ${NC}"
-echo -e "${Purple}                                  ⭐ Shrouq Haney Mohamed ⭐                                           ${NC}"
+echo -e "${YELLOW}                    ⭐   Telecom Application Development - Intake 45       ⭐                               ${NC}"
+echo -e "${YELLOW}                    👩‍💻 Developed by:                              ${NC}"
+echo -e "${Cyan}                                    ⭐ Sara Yousrei Alsoyefeai Allsebeai                                  ${NC}"
+echo -e "${Purple}                                    ⭐ Shrouq Haney Mohamed                                          ${NC}"
 echo -e "${YELLOW}                                                                                                          ${NC}"
 echo "***********************************************************************************************************"
 echo ""
@@ -31,7 +32,7 @@ function welcomeScreen {
     do
         case $REPLY in
             1) dbMainMenu ;;  
-            2) echo "Exiting, Goodbye :( "; exit 0 ;;  
+            2) echo "👋 Exiting, Goodbye!"; exit 0 ;;  
             *) echo -e "${RED}❌ Invalid option!${NC}";;  
 
         esac
