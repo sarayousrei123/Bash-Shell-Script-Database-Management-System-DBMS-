@@ -6,7 +6,7 @@ function selectDB {
     echo "     🔗 CONNECT TO DATABASE    "
     echo "==============================="
     echo "📂 Available databases:"
-    ls -1 "$DB_MAIN_DIR"
+    ls -1 "$DB_MAIN_DIR"| awk '{print "📂 " $0}'
 
     while true; do
         read -p "Enter database name or type 'exit' to return: " dbname
@@ -29,6 +29,8 @@ function selectDB {
             return
         else
             echo -e "${RED}❌ Error: Database '$dbname' does not exist.${NC}"
+             read -p "do you went create new Datebase? (Y/N): " to_create
+            [[ "$to_create" =~ ^[Yy]$ ]] && to_create= createDB 
         fi
     done
 }

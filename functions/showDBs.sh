@@ -7,7 +7,7 @@ function showDBs {
     echo "=========================================="
 
     while true; do
-        read -p "🔹 Enter 1 to 'show all' to list all databases, enter 2 to'showspecificDB' to search for a specific one, or 'exit' to return: " choose
+        read -p "🔹 Enter 1 to  list all databases, enter 2 to search for a specific one, or 'exit' to return: " choose
 
         case $choose in
             "exit")
@@ -19,8 +19,8 @@ function showDBs {
                     echo -e "${RED}❌ Sorry, no databases found!${NC}"
                 else
                     echo "------------------------------------------"
-                    echo "📋 Databases:"
-                    ls -1 "$DB_MAIN_DIR"  # List database names
+                    echo "🗃️ Databases:"
+                    ls -1 "$DB_MAIN_DIR" | awk '{print "📂 " $0}' 
                     echo "------------------------------------------"
                 fi
                 ;;

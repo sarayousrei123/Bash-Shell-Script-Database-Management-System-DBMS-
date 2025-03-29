@@ -7,21 +7,25 @@ function SpecificDB {
     echo "=========================================="
 
     while true; do
-        read -p "🔹 Enter the database name or type 'exit' to return: " user_input
+        read -p "🔹 Enter the database name or type 'exit' to return: " dbname
+        validateDBName "$dbname"
+        if [[ $? -ne 0 ]]; 
+        then
+            continue
+        fi
 
-        if [[ "$user_input" == "exit" ]]; then
+
+        if [[ "$dbname" == "exit" ]]; then
             dbMainMenu
-        elif [[ -z "$user_input" || "$user_input" == *" "* ]]; then
-            echo -e "${RED}❌ Error: Database name cannot be empty or contain spaces.${NC}"
-        elif [[ "$user_input" == *['!''?'@\#\$%^\&*()'-'+\.\/';']* ]]; then
-            echo -e "${RED}❌ Error: Database name cannot contain special characters.${NC}"
-        elif [[ -d "$DB_MAIN_DIR/$user_input" ]]; then
+        elif [[ -d "$DB_MAIN_DIR/$dbname" ]]; then
             echo "------------------------------------------"
-            echo "📂 Contents of '$user_input':"
-            ls -1 "$DB_MAIN_DIR/$user_input"
+            echo "📂 Contents of '$dbname':"
+            ls -1 "$DB_MAIN_DIR/$dbname"| awk '{print "📄 " $0}'  
             echo "------------------------------------------"
+            read -p "do you went connect [$dbname]? (Y/N): " to_connect
+            [[ "$to_connect" =~ ^[Yy]$ ]] && to_connect= TablesMainMenu 
         else
-            echo -e "${RED}❌ Error: The database '$user_input' was not found.${NC}"
+            echo -e "${RED}❌ Error: The database '$dbname' was not found.${NC}"
         fi
     done
 }
