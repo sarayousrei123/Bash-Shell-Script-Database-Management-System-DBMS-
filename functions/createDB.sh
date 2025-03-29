@@ -2,13 +2,13 @@
 
 function createDB {
     clear
-    echo "==============================="
-    echo "     📂 CREATE A NEW DATABASE  "
-    echo "==============================="
+    echo "=================================="
+    echo "    📂 CREATE A NEW DATABASE  "
+    echo "=================================="
 
     while true; 
     do
-        read -p "Enter the database name or type 'exit' to return: " dbname
+        read -p "Enter the database name or type  'exit' to return: " dbname
 
         if [[ $dbname == "exit" ]]; then
             dbMainMenu

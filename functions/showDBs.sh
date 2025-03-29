@@ -3,7 +3,7 @@
 function showDBs { 
     clear
     echo "=========================================="
-    echo "📂       AVAILABLE DATABASES       📂"
+    echo "    📂    AVAILABLE DATABASES     📂"
     echo "=========================================="
 
     while true; do

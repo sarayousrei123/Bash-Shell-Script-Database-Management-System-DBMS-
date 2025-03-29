@@ -3,12 +3,20 @@
 function createTable {
     clear
     echo "=========================================="
-    echo "➕ Create Tables in [$dbname]  ➕"
+    echo "    ➕ Create Tables in $dbname  ➕"
     echo "=========================================="
 
     while true; do 
         read -p "Enter table name or type 'exit': " tablename
-        [[ "$tablename" == "exit" ]] && clear && return 
+        if [[ $tablename == "exit" ]]; then
+            TablesMainMenu
+            return
+        fi
+         validatetablename "$tablename"
+        if [[ $? -ne 0 ]]; then
+            continue  
+        fi
+
 
         TABLE_PATH="$DB_MAIN_DIR/$dbname/$tablename.xml"
         META_PATH="$DB_MAIN_DIR/$dbname/${tablename}_meta.xml"
@@ -20,7 +28,7 @@ function createTable {
 
         read -p "Enter number of columns: " col_count
         if ! [[ "$col_count" =~ ^[1-9][0-9]*$ ]]; then
-            echo -e "${RED}  Invalid Column Count!${NC}"
+            echo -e "${RED} Column Count must be int!${NC}"
             continue
         fi
 
@@ -40,10 +48,11 @@ function createTable {
 
             while true; do
                 read -p "Enter column name: " col_name
-                validateColumnname "$col_name" && break
-            done
-
-            while true; do
+                validateColumnname "$col_name"
+		if [[ $? -ne 0 ]]; then
+		    continue  
+		fi
+           
                 read -p "Data Type (string/int): " col_type
                 if [[ "$col_type" =~ ^(string|int)$ ]]; then
                     break
@@ -84,7 +93,7 @@ function createTable {
         while true; do
             read -p "Do you want to return to the main menu (1) or add another table (2)? " choice
             case $choice in
-                1) return ;;   
+                1) TablesMainMenu ;;   
                 2) clear ; break ;;  
                 *) echo -e "${RED}Invalid choice! Please enter 1 or 2.${NC}" ;;
             esac

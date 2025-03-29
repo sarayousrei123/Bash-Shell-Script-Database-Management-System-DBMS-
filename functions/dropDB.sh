@@ -3,9 +3,12 @@ function dropDB {
     echo "============================"
     echo "  🗑️  DELETE A DATABASE"
     echo "============================"
+    echo "  🗃️  Available databases:"
+    echo "==============================="
+    ls -1 "$DB_MAIN_DIR"| awk '{print "📂 " $0}'
 
     while true; do
-        read -p "Enter the database name to delete or 'exit' to return: " DB_NAME
+        read -p "Enter the database name to delete or  exit to return main menu " DB_NAME
         
         if [[ $DB_NAME == "exit" ]]; then
             dbMainMenu

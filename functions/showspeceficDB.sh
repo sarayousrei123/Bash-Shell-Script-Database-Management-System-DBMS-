@@ -3,11 +3,11 @@
 function SpecificDB {
     clear
     echo "=========================================="
-    echo "🔍       SEARCH FOR A DATABASE       🔍"
+    echo "  🔍   SEARCH FOR A DATABASE      🔍"
     echo "=========================================="
 
     while true; do
-        read -p "🔹 Enter the database name or type 'exit' to return: " dbname
+        read -p "🔹 Enter the database name or type  'exit' to return: " dbname
         validateDBName "$dbname"
         if [[ $? -ne 0 ]]; 
         then

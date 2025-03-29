@@ -24,7 +24,7 @@ function validateColumnname {
     fi
     
     if [[ $columnname == "exit" ]] ; then
-    echo -e "${RED}  Table creation canceled.${NC}" && rm -f "$TABLE_PATH" "$META_PATH" && return  
+    rm -f "$TABLE_PATH" "$META_PATH" && TablesMainMenu
     fi	
     return 0  
 }

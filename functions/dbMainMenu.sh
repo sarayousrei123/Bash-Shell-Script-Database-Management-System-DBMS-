@@ -15,7 +15,7 @@ function dbMainMenu {
             "➕ Create Database" 
             "✏️  Rename Database" 
             "🗑️  Drop Database" 
-            "📋 Show Databases" 
+            "🗃️ Show Databases" 
             "💻 Execute SQL Query" 
             "❌ Exit"
         )

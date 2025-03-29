@@ -3,12 +3,13 @@
 function deleteFromTable {
     clear
     echo "=========================================="
-    echo "🗑️ Delete from Table in [$dbname]  🗑️"
+    echo "  🗑️ Delete from Table in $dbname  🗑️"
     echo "=========================================="
-    
+     while true; do 
     echo "What do you want to delete?"
     echo "1) Delete specific record"
     echo "2) Delete specific column"
+    echo "3) to exit"
     read -p "Enter your choice: " choice
 
     tables=$(ls "$DB_MAIN_DIR/$dbname" | grep -E '\.xml$' | sed 's/.xml$//')
@@ -56,10 +57,11 @@ function deleteFromTable {
 
             echo -e "${GREEN} Column '$coldel' deleted successfully! ${NC}"
             ;;
-        
+        3) TablesMainMenu;;
         *) 
             echo -e "${RED} Invalid choice! ${NC}"
             ;;
     esac
+    done
 }
 

@@ -5,7 +5,7 @@ function insertTable {
     echo "=========================================="
     echo "📝 Insert Data into Table in  $dbname  📝"
     echo "📌 Available Tables in       '$dbname':   "
-    ls "$DB_MAIN_DIR/$dbname" | grep -E "^[a-zA-Z0-9_-]+\.xml$" | sed 's/\.xml$//'
+     ls "$DB_MAIN_DIR/$dbname" | grep -E '^[^_]+\.xml$' | sed 's/.xml$//'| awk '{print "📄 " $0}'  
     echo "=========================================="
 
     while true; do
@@ -101,10 +101,9 @@ function insertTable {
     while true; do
         read -p "Do you want to return to the main menu (1) or insert another row (2)? " choice
         case $choice in
-            1) clear; return ;;  
-            2) clear; break ;;  
+            1) TablesMainMenu; return ;;  
+            2) insertTable; break ;;  
             *) echo -e "${RED} Invalid choice! Please enter 1 or 2. ${NC}" ;;
         esac
     done
 }
-
