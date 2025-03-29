@@ -12,15 +12,11 @@ function dropDB {
             return
         fi
 
-        validateDBName "$DB_NAME"
-        if [[ $? -ne 0 ]]; then
-            continue
-        fi
-
         DB_PATH="$DB_MAIN_DIR/$DB_NAME"
         if [[ -d "$DB_PATH" ]]; then
             echo -e "${YELLOW}⚠️  Warning: You are about to delete '$DB_NAME'. This action cannot be undone! ${NC}"
             read -p "Are you sure? [y/n]: " confirmation
+            
             case $confirmation in
                 [yY]) 
                     rm -rf "$DB_PATH"

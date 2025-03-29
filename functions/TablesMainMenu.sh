@@ -2,9 +2,9 @@
 
 function TablesMainMenu {
     clear
-    echo "=========================================="
-    echo "📋      WELCOME TO Database [$dbname]      📋"
-    echo "=========================================="
+    echo "======================================================"
+    echo "📋      WELCOME TO Database $dbname     📋"
+    echo "======================================================"
 
     while true; do
         PS3="🔹 Enter your choice: "  
@@ -26,7 +26,7 @@ function TablesMainMenu {
                 3) DropTable; break ;;  
                 4) insertTable; break ;;  
                 5) selectFromTable; break ;;  
-                6) DeleteFromTable; break ;; 
+                6) deleteFromTable; break ;; 
                 7) UpdateTable; break ;; 
                 8) dbMainMenu; break ;; 
                 *) echo -e "${RED}❌ Invalid option! Please select a number from 1 to 8. ${NC}" ;;

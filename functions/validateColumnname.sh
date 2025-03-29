@@ -22,7 +22,10 @@ function validateColumnname {
         echo -e "${RED}❌ Error: Column name cannot start with a number.${NC}"
         return 1
     fi
-
+    
+    if [[ $columnname == "exit" ]] ; then
+    echo -e "${RED}  Table creation canceled.${NC}" && rm -f "$TABLE_PATH" "$META_PATH" && return  
+    fi	
     return 0  
 }
 

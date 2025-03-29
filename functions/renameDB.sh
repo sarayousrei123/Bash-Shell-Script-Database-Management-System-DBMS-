@@ -28,7 +28,6 @@ function renameDB {
             continue
         fi
         
-
         if [[ -d "$DB_MAIN_DIR/$new_name" ]]; 
         then
             echo -e "${RED}❌ Error: Database '$new_name' already exists! ${NC}"
