@@ -2,20 +2,23 @@
 
 function UpdateTable {
     clear
-    echo "=========================================="
-    echo "✏️  Update Data in Table - $dbname ✏️"
-    echo "=========================================="
-    echo "📌 Available Tables in '$dbname':"
+    echo "==========================================================================================================================================================="
+    echo ""
+    echo "  							✏️  Update Data in Table - $dbname ✏️"
+    echo ""
+    echo "==========================================================================================================================================================="
+    echo "📌 Available Tables in '$dbname':)"
+    echo "-----------------------------------------------------------------------------------------------------------------------------------------------------------"
     ls "$DB_MAIN_DIR/$dbname" | grep -E '^[^_]+\.xml$' | sed 's/.xml$//' | awk '{print "📄 " $0}'
-    echo "=========================================="
+    echo "-----------------------------------------------------------------------------------------------------------------------------------------------------------"
 
     while true; do
-        read -p "Enter table name: " tablename
+        read -p "Enter table name:) " tablename
         TABLE_PATH="$DB_MAIN_DIR/$dbname/$tablename.xml"
         META_PATH="$DB_MAIN_DIR/$dbname/${tablename}_meta.xml"
 
         if [[ ! -f "$TABLE_PATH" ]]; then
-            echo -e "${RED} ❌ Table '$tablename' does not exist! ${NC}"
+            echo -e "${RED_CRIMSON}❌  Table '$tablename' does not exist! ${NC}"
             continue
         fi
         break
@@ -47,7 +50,7 @@ function UpdateTable {
 
     # التأكد من العثور على مفتاح أساسي
     if [[ -z "$primary_key" ]]; then
-        echo -e "${RED} ❌ Error: No primary key found in '$tablename'! ${NC}"
+        echo -e "${RED_CRIMSON}❌  Error: No primary key found in '$tablename'! ${NC}"
         return
     fi
 
@@ -69,7 +72,7 @@ function UpdateTable {
 
     # التأكد من أن القيمة المدخلة موجودة في الجدول
     if ! grep -q "<$primary_key>$pk_value</$primary_key>" "$TABLE_PATH"; then
-        echo -e "${RED} ❌ Error: No matching row found for PK = $pk_value ${NC}"
+        echo -e "${RED_CRIMSON}❌ Error: No matching row found for PK = $pk_value ${NC}"
         return
     fi
 
@@ -93,6 +96,6 @@ function UpdateTable {
         sed -i "/<$primary_key>$pk_value<\/$primary_key>/,/\/Row>/s|<$col_name>.*</$col_name>|<$col_name>${updated_values[$i]}</$col_name>|" "$TABLE_PATH"
     done
 
-    echo -e "${GREEN} ✅ Row with PK = $pk_value updated successfully! ${NC}"
+    echo -e "${GREEN} ✅ Row with PK = $pk_value updated successfully! 🎉 ${NC}"
 }
 

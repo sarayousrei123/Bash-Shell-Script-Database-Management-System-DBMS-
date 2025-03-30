@@ -2,12 +2,14 @@
 
 function createTable {
     clear
-    echo "=========================================="
-    echo "    ➕ Create Tables in $dbname  ➕"
-    echo "=========================================="
+    echo "==========================================================================================================================================================="
+    echo ""
+    echo "                                                           ➕ Create Tables in $dbname  ➕"
+    echo ""
+    echo "==========================================================================================================================================================="
 
     while true; do 
-        read -p "Enter table name or type 'exit': " tablename
+        read -p "Enter table name or type 'exit':) " tablename
         if [[ $tablename == "exit" ]]; then
             TablesMainMenu
             return
@@ -22,13 +24,13 @@ function createTable {
         META_PATH="$DB_MAIN_DIR/$dbname/${tablename}_meta.xml"
 
         if [[ -f "$TABLE_PATH" ]]; then
-            echo -e "${RED}  Table '$tablename' already exists!${NC}"
+            echo -e "${RED_CRIMSON}❌  Table '$tablename' already exists!${NC}"
             continue
         fi
 
         read -p "Enter number of columns: " col_count
         if ! [[ "$col_count" =~ ^[1-9][0-9]*$ ]]; then
-            echo -e "${RED} Column Count must be int!${NC}"
+            echo -e "${RED_CRIMSON}❌ Column Count must be int!${NC}"
             continue
         fi
 
@@ -57,7 +59,7 @@ function createTable {
                 if [[ "$col_type" =~ ^(string|int)$ ]]; then
                     break
                 else
-                    echo -e "${RED} Invalid choice, please enter 'string' or 'int' ${NC}"
+                    echo -e "${RED_CRIMSON}❌ Invalid choice, please enter 'string' or 'int' ${NC}"
                 fi
             done
 
@@ -79,23 +81,23 @@ function createTable {
         done
 
         if [[ "$primary_key_count" -eq 0 ]]; then
-            echo -e "${YELLOW} Warning: No Primary Key defined! Continue without PK? (Y/N) ${NC}"
-            read choice
-            [[ ! "$choice" =~ ^[Yy]$ ]] && echo -e "${RED}  Table creation canceled${NC}" && rm -f "$TABLE_PATH" "$META_PATH" && return
+            echo -e "${RED_CRIMSON}❌ Error: No Primary Key defined! you must insert PK ${NC}"
+            echo -e "${BLUE_OCEAN}ℹ️ Table creation canceled${NC}" && rm -f "$TABLE_PATH" "$META_PATH" 
+            read -p "enter any key to insert another table:)" enter && createTable
         fi
 
         echo "  </Columns>" >> "$META_PATH"
         echo "</TableMeta>" >> "$META_PATH"
         echo "</Table>" >> "$TABLE_PATH"
 
-        echo -e "${GREEN} Table '$tablename' created successfully ${NC}"
+        echo -e "${GREEN}✅ Table '$tablename' created successfully 🎉${NC}"
 
         while true; do
             read -p "Do you want to return to the main menu (1) or add another table (2)? " choice
             case $choice in
                 1) TablesMainMenu ;;   
                 2) clear ; break ;;  
-                *) echo -e "${RED}Invalid choice! Please enter 1 or 2.${NC}" ;;
+                *) echo -e "${RED_CRIMSON}❌ Invalid choice! Please enter 1 or 2.${NC}" ;;
             esac
         done
 

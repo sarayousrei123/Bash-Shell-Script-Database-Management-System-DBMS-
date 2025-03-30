@@ -2,9 +2,11 @@
 
 function createDB {
     clear
-    echo "=================================="
-    echo "    📂 CREATE A NEW DATABASE  "
-    echo "=================================="
+    echo "============================================================================================================================================================"
+    echo ""
+    echo "    									 ➕  CREATE A NEW DATABASE  ➕ "
+    echo ""
+    echo "============================================================================================================================================================"
 
     while true; 
     do
@@ -21,7 +23,7 @@ function createDB {
         fi
 
         if [[ -d "$DB_MAIN_DIR/$dbname" ]]; then
-            echo -e "${RED}❌ Error: Database '$dbname' already exists.${NC}"
+            echo -e "${RED_CRIMSON}❌ Error: Database '$dbname' already exists.${NC}"
             continue
         fi
 	

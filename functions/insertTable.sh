@@ -2,11 +2,15 @@
 
 function insertTable {
     clear
-    echo "=========================================="
-    echo "📝 Insert Data into Table in  $dbname  📝"
-    echo "📌 Available Tables in       '$dbname':   "
-     ls "$DB_MAIN_DIR/$dbname" | grep -E '^[^_]+\.xml$' | sed 's/.xml$//'| awk '{print "📄 " $0}'  
-    echo "=========================================="
+    echo "=========================================================================================================================================================="
+    echo ""
+    echo "							📝 Insert Data into Table in  $dbname  📝"
+    echo ""
+    echo "=========================================================================================================================================================="
+    echo "📌 Available Tables in $dbname :)   "
+    echo "-----------------------------------------------------------------------------------------------------------------------------------------------------------"
+    ls "$DB_MAIN_DIR/$dbname" | grep -E '^[^_]+\.xml$' | sed 's/.xml$//'| awk '{print "📄 " $0}'  
+    echo "-----------------------------------------------------------------------------------------------------------------------------------------------------------"
 
     while true; do
         read -p "Enter table name: " tablename
@@ -14,14 +18,14 @@ function insertTable {
         META_PATH="$DB_MAIN_DIR/$dbname/${tablename}_meta.xml"
 
         if [[ ! -f "$TABLE_PATH" ]]; then
-            echo -e "${RED} Table '$tablename' does not exist! ${NC}"
+            echo -e "${RED_CRIMSON}❌ Table '$tablename' does not exist! ${NC}"
             echo "1. Create Table '$tablename'"
             echo "2. Retype table name"
             read -p "Choose (1/2): " choice
             case "$choice" in
                 1) createTable; return ;;
                 2) continue ;;
-                *) echo -e "${RED} Invalid choice! Try again. ${NC}";;
+                *) echo -e "${RED_CRIMSON}❌ Invalid choice! Try again. ${NC}";;
             esac
         else
             break
@@ -49,7 +53,7 @@ function insertTable {
     done < <(grep "<Column " "$META_PATH")
 
     if [[ ${#column_names[@]} -eq 0 ]]; then
-        echo -e "${RED} Error: No columns found in '$tablename'! ${NC}"
+        echo -e "${RED_CRIMSON}❌ Error: No columns found in '$tablename'! ${NC}"
         return
     fi
 
@@ -69,16 +73,16 @@ function insertTable {
             read -p "Enter value for $col_name ($col_type): " col_value
 
             if [[ "$col_type" == "string" && ! "$col_value" =~ ^[a-zA-Z\ ]+$ ]]; then
-                echo -e "${RED} Error: $col_name must contain only letters and spaces! ${NC}"
+                echo -e "${RED_CRIMSON}❌ Error: $col_name must contain only letters and spaces! ${NC}"
                 continue
             elif [[ "$col_type" == "int" && ! "$col_value" =~ ^[0-9]+$ ]]; then
-                echo -e "${RED} Error: $col_name must contain only numbers! ${NC}"
+                echo -e "${RED_CRIMSON}❌ Error: $col_name must contain only numbers! ${NC}"
                 continue
             fi
 
             if [[ "$is_unique" == "true" && -n "$col_value" ]]; then
                 if grep -q "<$col_name>$col_value</$col_name>" "$TABLE_PATH"; then
-                    echo -e "${RED} Error: Value for $col_name must be unique! ${NC}"
+                    echo -e "${RED_CRIMSON}❌ Error: Value for $col_name must be unique! ${NC}"
                     continue
                 fi
             fi
@@ -96,14 +100,14 @@ function insertTable {
     echo "  </Row>" >> "$TABLE_PATH"
     echo "</Table>" >> "$TABLE_PATH"
 
-    echo -e "${GREEN} Data inserted successfully into '$tablename'. ${NC}"
+    echo -e "${GREEN}✅ Data inserted successfully into '$tablename'🎉 ${NC}"
 
     while true; do
         read -p "Do you want to return to the main menu (1) or insert another row (2)? " choice
         case $choice in
             1) TablesMainMenu; return ;;  
-            2) insertTable; break ;;  
-            *) echo -e "${RED} Invalid choice! Please enter 1 or 2. ${NC}" ;;
+            2) insertTable;;  
+            *) echo -e "${RED_CRIMSON}❌ Invalid choice! Please enter 1 or 2. ${NC}" ;;
         esac
     done
-}
+} 

@@ -2,9 +2,11 @@
 
 function TablesMainMenu {
     clear
-    echo "======================================================"
-    echo "       📂      WELCOME TO $dbname Database      📂"
-    echo "======================================================"
+    echo "============================================================================================================================================================"
+    echo ""
+    echo "      						 📂      WELCOME TO $dbname Database      📂"
+    echo ""
+    echo "============================================================================================================================================================"
 
     while true; do
         PS3="🔹 Enter your choice: "  
@@ -16,6 +18,7 @@ function TablesMainMenu {
             "🔎 Select from Table" 
             "🗑️ Delete from Table" 
             "✏️ Update Table" 
+            "🛠️ alterTable"
             "↩️ Go back to Database Main Menu"
         )
 
@@ -27,9 +30,10 @@ function TablesMainMenu {
                 4) insertTable; break ;;  
                 5) selectFromTable; break ;;  
                 6) deleteFromTable; break ;; 
-                7) UpdateTable; break ;; 
-                8) dbMainMenu; break ;; 
-                *) echo -e "${RED}❌ Invalid option! Please select a number from 1 to 8. ${NC}" ;;
+                7) UpdateTable; break ;;
+                8) alterTable ; break ;;
+                9) dbMainMenu; break ;; 
+                *) echo -e "${RED_CRIMSON}❌  Invalid option! Please select a number from 1 to 8. ${NC}" ;;
             esac
         done
     done
