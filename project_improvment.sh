@@ -13,15 +13,15 @@ if ! [[ -d "$DB_MAIN_DIR" ]]; then
 fi
 clear
 
-echo "***********************************************************************************************************"
-echo -e "${YELLOW}                                                                                                          ${NC}"
-echo -e "${YELLOW}                    🚀 Bash Shell Script Database Management System (DBMS) 🚀                             ${NC}"
-echo -e "${YELLOW}                    ⭐   Telecom Application Development - Intake 45       ⭐                               ${NC}"
-echo -e "${YELLOW}                    👩‍💻 Developed by:                              ${NC}"
-echo -e "${Cyan}                                    ⭐ Sara Yousrei Alsoyefeai Allsebeai                                  ${NC}"
-echo -e "${Purple}                                    ⭐ Shrouq Haney Mohamed                                          ${NC}"
-echo -e "${YELLOW}                                                                                                          ${NC}"
-echo "***********************************************************************************************************"
+echo "****************************************************************************************************************************************************************"
+echo  ""
+echo -e "${BOLD} ${BROWN_BEIGE}                  				    🚀 Bash Shell Script Database Management System (DBMS) 🚀            ${NC}"
+echo -e "${BOLD} ${BROWN_BEIGE}                		      	               ⭐ Telecom Application Development - Intake 45 ⭐                    ${NC}"
+echo -e "${BOLD} ${GOLD_METALLIC}                		                    👩‍💻 Developed by:                                                          ${NC}"
+echo -e "${BOLD} ${BROWN_BEIGE}                                    		   		 ⭐ Sara Yousrei Alsoyefeai Allsebeai                    ${NC}"
+echo -e "${BOLD} ${BROWN_BEIGE}                                                                  ⭐ Shrouq Haney Mohamed                                 ${NC}"
+echo  ""
+echo "****************************************************************************************************************************************************************"
 echo ""
 
 
