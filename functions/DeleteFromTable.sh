@@ -34,7 +34,7 @@ function deleteFromTable {
             continue
         fi
 
-        # استخراج اسم الـ Primary Key باستخدام xmlstarlet
+
 PK_COL=$(grep 'primaryKey="true"' "$META_PATH" | sed -n 's/.*name="\([^"]*\)".*/\1/p')
 
 
@@ -47,7 +47,7 @@ PK_COL=$(grep 'primaryKey="true"' "$META_PATH" | sed -n 's/.*name="\([^"]*\)".*/
         echo "🔑 Primary Key Column: $PK_COL"
         
         while true; do
-            read -p "Enter Primary Key value to delete the row (or type 'exit' to return): " pk_value
+            read -p "Enter Primary Key value to delete the row or type 'exit' to retype table name:) " pk_value
             if [[ "$pk_value" == "exit" ]]; then
                 break
             fi
@@ -57,8 +57,30 @@ PK_COL=$(grep 'primaryKey="true"' "$META_PATH" | sed -n 's/.*name="\([^"]*\)".*/
                 continue
             fi
 
-            # حذف الصف بالكامل إذا كان يحتوي على الـ PK المطلوب
-sed -i "/<Row>/,/<\/Row>/ { /<$PK_COL>$pk_value<\/$PK_COL>/ {N; d} }" "$TABLE_PATH"
+           
+awk -v pk_col="$PK_COL" -v pk_value="$pk_value" '
+BEGIN { inside_row=0; found=0; row_data="" }
+/<Row>/ { inside_row=1; row_data=$0; next }
+/<\/Row>/ {
+    row_data = row_data ORS $0;
+    if (found == 0) { print row_data }
+    inside_row=0; found=0; row_data="";
+    next
+}
+{
+    row_data = row_data ORS $0;
+    if ($0 ~ "<" pk_col ">" pk_value "</" pk_col ">") {
+        found=1;
+}
+}
+' "$TABLE_PATH" > temp.xml && mv temp.xml "$TABLE_PATH"
+
+
+
+
+
+
+
 
 
             echo -e "${GREEN}✅ Row with PK='$pk_value' deleted successfully! 🎉 ${NC}"

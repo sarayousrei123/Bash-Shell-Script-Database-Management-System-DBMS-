@@ -12,7 +12,7 @@ function selectDB {
     ls -1 "$DB_MAIN_DIR"| awk '{print "📂 " $0}'
 
     while true; do
-        read -p "Enter database name or type  'exit' to return: " dbname
+        read -p "Enter database name or type  'exit' to return:) " dbname
 
         if [[ $dbname == "exit" ]]; then
 

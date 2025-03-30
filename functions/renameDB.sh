@@ -22,7 +22,7 @@ function renameDB {
             continue
         fi
 
-        read -p "Enter the new database name: " new_name
+        read -p "Enter the new database name:) " new_name
 
         validateDBName "$new_name"
         if [[ $? -ne 0 ]]; 

@@ -96,7 +96,7 @@ function createTable {
             read -p "Do you want to return to the main menu (1) or add another table (2)? " choice
             case $choice in
                 1) TablesMainMenu ;;   
-                2) clear ; break ;;  
+                2) createTable ; break ;;  
                 *) echo -e "${RED_CRIMSON}❌ Invalid choice! Please enter 1 or 2.${NC}" ;;
             esac
         done

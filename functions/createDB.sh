@@ -10,7 +10,7 @@ function createDB {
 
     while true; 
     do
-        read -p "Enter the database name or type  'exit' to return: " dbname
+        read -p "Enter the database name or type  'exit' to return:) " dbname
 
         if [[ $dbname == "exit" ]]; then
             dbMainMenu

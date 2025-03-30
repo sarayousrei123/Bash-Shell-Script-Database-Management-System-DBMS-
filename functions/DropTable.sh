@@ -18,7 +18,11 @@ clear
         echo "$available_tables"
     fi
 while true ;do
-    read -p "Enter the table name you want to drop or 'exit': " tablename
+    read -p "Enter the table name you want to drop or 'exit':) " tablename
+     validatetablename "$tablename"
+        if [[ $? -ne 0 ]]; then
+            continue  
+        fi
 
     if [[ $tablename == "exit" ]]; then
             TablesMainMenu
