@@ -34,7 +34,7 @@ function UpdateTable {
         col_type=$(echo "$line" | grep -oP 'type="\K[^"]+')
         is_primary=$(echo "$line" | grep -oP 'primaryKey="\K[^"]+')
 
-        if [[ -n "$col_name" ]]; then
+        if [[ -n "$col_name" && "$col_name" != "em" ]]; then  # تجنب تضمين 'em' في الأعمدة
             column_names+=("$col_name")
             column_types+=("$col_type")
             [[ "$is_primary" == "true" ]] && primary_key="$col_name"
@@ -54,48 +54,79 @@ function UpdateTable {
         return
     fi
 
-    # ✅ عرض البيانات المتاحة في الجدول
-    echo "📌 Existing Rows in '$tablename':"
-    awk -F '[<>]' -v pk="$primary_key" '
-        /<Row>/ {row=""; found=0}
-        {
-            for (i=2; i<=NF; i+=2) {
-                if ($i == pk) {found=1}
-                row = row $i " | "
-            }
-        }
-        found {print row}
-    ' "$TABLE_PATH"
-
     # 🔎 طلب قيمة المفتاح الأساسي لتحديث الصف
     read -p "Enter value of Primary Key ($primary_key) to update: " pk_value
 
-    # التأكد من أن القيمة المدخلة موجودة في الجدول
-    if ! grep -q "<$primary_key>$pk_value</$primary_key>" "$TABLE_PATH"; then
+    # استخراج القيمة القديمة باستخدام grep للتأكد من وجودها
+    old_value=$(grep -oP "<Row>.*<id>$pk_value<\/id>.*<name>\K[^<]+" "$TABLE_PATH")
+
+    # التحقق إذا كان السطر موجودًا بالفعل
+    if [[ -z "$old_value" ]]; then
         echo -e "${RED_CRIMSON}❌ Error: No matching row found for PK = $pk_value ${NC}"
+        echo "Here are the rows in the table to help you identify the issue:"
+        grep -oP "<Row>.*</Row>" "$TABLE_PATH"
         return
     fi
 
-    # 🔄 تحديث البيانات
-    updated_values=()
-    for i in "${!column_names[@]}"; do
-        col_name="${column_names[$i]}"
-
-        # استخراج القيمة القديمة
-        old_value=$(grep -oP "(?<=<$col_name>).*?(?=</$col_name>)" "$TABLE_PATH" | grep -m1 "$pk_value" -A 1 | tail -n1)
-        
-        read -p "New value for $col_name (old: $old_value, press Enter to keep): " new_value
-        [[ -z "$new_value" ]] && new_value="$old_value"
-
-        updated_values+=("$new_value")
+    # طلب اسم العمود لتعديله
+    echo "📌 Available columns for update (except primary key):"
+    for col in "${column_names[@]}"; do
+        if [[ "$col" != "$primary_key" ]]; then
+            echo "📄 $col"
+        fi
     done
 
-    # تحديث السجل في XML
-    for i in "${!column_names[@]}"; do
-        col_name="${column_names[$i]}"
-        sed -i "/<$primary_key>$pk_value<\/$primary_key>/,/\/Row>/s|<$col_name>.*</$col_name>|<$col_name>${updated_values[$i]}</$col_name>|" "$TABLE_PATH"
-    done
+    read -p "Enter the column name you want to update: " col_name
 
-    echo -e "${GREEN} ✅ Row with PK = $pk_value updated successfully! 🎉 ${NC}"
+    # التأكد من أن اسم العمود المدخل موجود
+    if [[ ! " ${column_names[@]} " =~ " $col_name " ]]; then
+        echo -e "${RED_CRIMSON}❌ Error: Column '$col_name' does not exist! ${NC}"
+        return
+    fi
+
+    # استخراج القيمة القديمة
+    old_value=$(grep -oP "<Row>.*<id>$pk_value<\/id>.*<$col_name>\K[^<]+" "$TABLE_PATH")
+
+    # التحقق من وجود القيمة القديمة
+    if [[ -z "$old_value" ]]; then
+        old_value="N/A"  # إذا لم يتم العثور على قيمة قديمة، عرض "N/A"
+    fi
+
+    echo "📌 Current value for $col_name (old value): $old_value"
+    
+    # إدخال القيمة الجديدة
+    read -p "Enter new value for $col_name (press Enter to keep the old value): " new_value
+    [[ -z "$new_value" ]] && new_value="$old_value"
+
+    # التحقق من نوع البيانات
+    col_type=$(echo "${column_types[@]}" | grep -oP "(?<=\b$col_name\b)[^ ]+")
+
+    # التحقق من تطابق نوع البيانات مع القيمة المدخلة
+    if [[ "$col_type" == "int" && ! "$new_value" =~ ^[0-9]+$ ]]; then
+        echo -e "${RED_CRIMSON}❌ Error: Invalid value for column '$col_name' (expected type: int) ${NC}"
+        return
+    elif [[ "$col_type" == "string" && -z "$new_value" ]]; then
+        echo -e "${RED_CRIMSON}❌ Error: Invalid value for column '$col_name' (expected type: string) ${NC}"
+        return
+    fi
+
+    # تحديث السجل في XML باستخدام أدوات bash
+    sed -i "s|<Row>.*<id>$pk_value</id>.*<$col_name>$old_value</$col_name>.*|<Row><id>$pk_value</id><$col_name>$new_value</$col_name></Row>|" "$TABLE_PATH"
+
+    # التأكد من أنه تم تحديث البيانات
+    updated_value=$(grep -oP "<Row>.*<id>$pk_value<\/id>.*<$col_name>\K[^<]+" "$TABLE_PATH")
+
+    echo "📌 Updated value for $col_name: $updated_value"
+    echo -e "${GREEN} ✅ Row with PK = $pk_value has been successfully updated! Old value was '$old_value', new value is '$new_value'. 🎉 ${NC}"
+
+    # إعادة اختيار العودة إلى القائمة الرئيسية أو تحديث صف آخر
+    while true; do
+        read -p "Do you want to return to the main menu (1) or update another row (2)? " choice
+        case $choice in
+            1) TablesMainMenu; return ;;  
+            2) UpdateTable;;  
+            *) echo -e "${RED_CRIMSON}❌ Invalid choice! Please enter 1 or 2. ${NC}" ;;
+        esac
+    done
 }
 
