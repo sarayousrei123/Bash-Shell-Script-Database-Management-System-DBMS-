@@ -23,35 +23,35 @@ This project is a simple **Database Management System (DBMS)** built using **Bas
 ```bash
 git clone https://github.com/yourusername/your-repo.git
 cd your-repo
-chmod +x main.sh  # Ensure the script is executable
+chmod +x project_improvment.sh  # Ensure the script is executable
 ```
 
 ### Run the Project
 ```bash
-./main.sh
+./project_improvment.sh
 ```
 
 ## 📂 Project Structure
 ```
 .
-├── main.sh                 # Main script to start the DBMS
-├── functions               # Folder containing script functions
-│   ├── CreateTable.sh      # Create Table logic
-│   ├── InsertIntoTable.sh  # Insert into table logic
-│   ├── DeleteFromTable.sh  # Delete operations
-│   ├── UpdateTable.sh      # Update data logic
-│   ├── SelectFromTable.sh  # Select and display data
-├── databases               # Folder containing created databases
-│   ├── dbname              # Example database folder
-│   │   ├── table.xml       # Table data in XML format
-│   │   ├── table_meta.xml  # Table metadata in XML
-└── README.md               # Project documentation
+├── project_improvment.sh                 # Main script to start the DBMS
+├── functions                             # Folder containing script functions
+│   ├── CreateTable.sh                    # Create Table logic
+│   ├── InsertIntoTable.sh                # Insert into table logic
+│   ├── DeleteFromTable.sh                # Delete operations
+│   ├── UpdateTable.sh                    # Update data logic
+│   ├── SelectFromTable.sh                # Select and display data
+├── databases                             # Folder containing created databases
+│   ├── dbname                            # Example database folder
+│   │   ├── table.xml                     # Table data in XML format
+│   │   ├── table_meta.xml                # Table metadata in XML
+└── README.md                             # Project documentation
 ```
 
 ## 📌 Usage Guide
 ### Create a Database
 ```bash
-./main.sh
+./project_improvment.sh
 # Choose option to create a new database
 ```
 
@@ -75,12 +75,10 @@ chmod +x main.sh  # Ensure the script is executable
 - Ensure `xmlstarlet` is installed (`sudo apt install xmlstarlet`).
 
 **Issue: Script not executable**
-- Run `chmod +x main.sh` and try again.
+- Run `chmod +x functions/*.sh` and try again.
 
 ## 🤝 Contributing
 Pull requests are welcome! If you find any bugs or want to improve the system, feel free to fork the repo and submit a PR.
 
-## 📜 License
-This project is licensed under the MIT License.
 
 
