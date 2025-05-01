@@ -71,9 +71,9 @@ function UpdateTable {
             read -p "Enter your choice: " choice
             case $choice in
                 1)
-                    clear  # فقط مسح الرسائل السابقة المتعلقة بالخطأ
-                    echo "❌ No row found with $primary_key = $pk_value" # إعادة عرض الرسالة نفسها بعد مسح الخطأ
-                    continue  # إعادة المحاولة
+                    clear  
+                    echo "❌ No row found with $primary_key = $pk_value" 
+                    continue  
                     ;;
                 2)
                     clear
@@ -128,7 +128,7 @@ function UpdateTable {
             case $choice in
                 1)
                     clear
-                    echo "❌ Invalid column!" # إعادة عرض الرسالة نفسها بعد مسح الخطأ
+                    echo "❌ Invalid column!" 
                     echo "🛠 Available columns for update:"
                     echo "-----------------|------------"
                     for i in "${!column_names[@]}"; do
@@ -189,7 +189,7 @@ function UpdateTable {
 
     echo -e "\n✅ Successfully updated '$col_to_update' to '$new_val'!"
 
-    # بعد التحديث الناجح، عرض الاختيارات التالية:
+
     while true; do
         read -p "Do you want to return to the main menu (1) or update another row (2)? " choice
         case $choice in
