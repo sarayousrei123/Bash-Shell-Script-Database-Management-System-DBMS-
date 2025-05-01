@@ -1,4 +1,5 @@
 #!/bin/bash
+
 function UpdateTable {
     clear
     echo "==========================================================================================================================================================="
@@ -51,20 +52,43 @@ function UpdateTable {
         printf "   %-15s | %-10s\n" "${column_names[$i]}" "${column_types[$i]}"
     done
 
-    read -p "Enter value of Primary Key ($primary_key) to update: " pk_value
+    # Loop until a valid row is found
+    while true; do
+        read -p "Enter value of Primary Key ($primary_key) to update: " pk_value
 
-    # Extract row using awk — only row that matches the primary key
-    row=$(awk -v pk="$pk_value" -v key="$primary_key" '
-        BEGIN { RS="</Row>"; ORS="" }
-        $0 ~ "<"key">"pk"</"key">" {
-            print $0"</Row>"
-        }
-    ' "$TABLE_PATH")
+        # Extract row using awk — only row that matches the primary key
+        row=$(awk -v pk="$pk_value" -v key="$primary_key" '
+            BEGIN { RS="</Row>"; ORS="" }
+            $0 ~ "<"key">"pk"</"key">" {
+                print $0"</Row>"
+            }
+        ' "$TABLE_PATH")
 
-    if [[ -z "$row" ]]; then
-        echo "❌ No row found with $primary_key = $pk_value"
-        return
-    fi
+        if [[ -z "$row" ]]; then
+            echo "❌ No row found with $primary_key = $pk_value"
+            echo "1) Try again"
+            echo "2) Exit to Main Menu"
+            read -p "Enter your choice: " choice
+            case $choice in
+                1)
+                    clear  # فقط مسح الرسائل السابقة المتعلقة بالخطأ
+                    echo "❌ No row found with $primary_key = $pk_value" # إعادة عرض الرسالة نفسها بعد مسح الخطأ
+                    continue  # إعادة المحاولة
+                    ;;
+                2)
+                    clear
+                    echo "❌ Exiting to Main Menu..."
+                    TablesMainMenu
+                    return
+                    ;;
+                *)
+                    echo "❌ Invalid choice. Please enter 1 or 2."
+                    ;;
+            esac
+        else
+            break
+        fi
+    done
 
     echo "✅ Row found:"
     echo "$row" | sed -E 's/<\/?Row>//g' | grep -oP '<[^>]+>[^<]+</[^>]+>' | while read -r line; do
@@ -83,19 +107,51 @@ function UpdateTable {
         fi
     done
 
-    read -p "Enter column name to update: " col_to_update
-    # Validation
-    valid_col=false
-    for name in "${column_names[@]}"; do
-        if [[ "$name" == "$col_to_update" && "$name" != "$primary_key" ]]; then
-            valid_col=true
+    while true; do
+        read -p "Enter column name to update: " col_to_update
+        # Validation
+        valid_col=false
+        for name in "${column_names[@]}"; do
+            if [[ "$name" == "$col_to_update" && "$name" != "$primary_key" ]]; then
+                valid_col=true
+                break
+            fi
+        done
+
+        if [[ "$valid_col" != true ]]; then
+            echo "❌ Invalid column!"
+
+            # Give user the option to try again or exit
+            echo "1) Try again"
+            echo "2) Exit to Main Menu"
+            read -p "Enter your choice: " choice
+            case $choice in
+                1)
+                    clear
+                    echo "❌ Invalid column!" # إعادة عرض الرسالة نفسها بعد مسح الخطأ
+                    echo "🛠 Available columns for update:"
+                    echo "-----------------|------------"
+                    for i in "${!column_names[@]}"; do
+                        if [[ "${column_names[$i]}" != "$primary_key" ]]; then
+                            printf "   %-15s | %-10s\n" "${column_names[$i]}" "${column_types[$i]}"
+                        fi
+                    done
+                    continue
+                    ;;
+                2)
+                    clear
+                    echo "❌ Exiting to Main Menu..."
+                    TablesMainMenu
+                    return
+                    ;;
+                *)
+                    echo "❌ Invalid choice. Please enter 1 or 2."
+                    ;;
+            esac
+        else
             break
         fi
     done
-    if [[ "$valid_col" != true ]]; then
-        echo "❌ Invalid column!"
-        return
-    fi
 
     idx=-1
     for i in "${!column_names[@]}"; do
@@ -131,17 +187,24 @@ function UpdateTable {
         }
     ' "$TABLE_PATH" > "$tmp_file" && mv "$tmp_file" "$TABLE_PATH"
 
-	    echo -e "\n✅ Successfully updated '$col_to_update' to '$new_val'!"
-	while true; do
-	    echo ""
-	    echo "Do you want to return to the main menu (1) or insert update another row (2)?"
-	    read -p "Enter your choice: " choice   
-	    case $choice in
-		1) TablesMainMenu; return ;;  
-		2) UpdateTable ;; 
-		*) echo "❌ Invalid choice. Please enter 1 or 2." ;;
-	    esac
-	done
- 
+    echo -e "\n✅ Successfully updated '$col_to_update' to '$new_val'!"
+
+    # بعد التحديث الناجح، عرض الاختيارات التالية:
+    while true; do
+        read -p "Do you want to return to the main menu (1) or update another row (2)? " choice
+        case $choice in
+            1) 
+                TablesMainMenu
+                return
+                ;;
+            2) 
+                UpdateTable
+                return
+                ;;
+            *)
+                echo -e "❌ Invalid choice! Please enter 1 or 2."
+                ;;
+        esac
+    done
 }
 
